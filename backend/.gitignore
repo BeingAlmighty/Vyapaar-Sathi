@@ -1,0 +1,27 @@
+# Python virtual environment
+venv/
+.env
+.env.*
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Test / coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE/editor files
+.vscode/
+.idea/
+.DS_Store
+
+# Local database / generated files
+*.sqlite3
+*.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
