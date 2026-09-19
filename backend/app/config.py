@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     ML_SERVICE_URL: str = "http://localhost:8001"
     ML_SERVICE_TIMEOUT_SECONDS: float = 5.0
 
+    # Gemini AI Integration
+    GEMINI_API_KEY: str = "AIzaSyC-9EiHd3yRypKVu5QYD0oZfGLS_u8BXtk"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

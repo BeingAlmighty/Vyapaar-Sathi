@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sparkles } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 interface SuggestedPromptProps {
   prompts: string[];
@@ -15,9 +15,9 @@ export const SuggestedPrompt: React.FC<SuggestedPromptProps> = ({
   if (!prompts || prompts.length === 0) return null;
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center space-x-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-        <Sparkles className="w-3.5 h-3.5 text-paytm-cyan" />
+    <div className="space-y-2 font-sans">
+      <div className="flex items-center space-x-1.5 text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">
+        <MessageSquare className="w-3.5 h-3.5 text-sky-600" />
         <span>Contextual Quick Inquiries</span>
       </div>
 
@@ -26,7 +26,7 @@ export const SuggestedPrompt: React.FC<SuggestedPromptProps> = ({
           <button
             key={idx}
             onClick={() => onSelectPrompt(prompt)}
-            className="text-xs bg-slate-100 hover:bg-paytm-lightBlue hover:text-paytm-navy border border-slate-200 hover:border-paytm-cyan/50 text-slate-700 px-3 py-1.5 rounded-full font-medium transition-all shadow-xs text-left"
+            className="text-xs bg-slate-100/80 hover:bg-slate-900 hover:text-white border border-slate-200/60 text-slate-700 px-4 py-1.5 rounded-full font-semibold transition-all shadow-2xs text-left"
           >
             {prompt}
           </button>

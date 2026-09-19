@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   Bot,
@@ -13,7 +13,6 @@ import {
   Users,
   Tag,
   Zap,
-  AlertTriangle,
   Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -35,11 +34,6 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
   const dashboardData = res?.data;
   const lowStockCount = dashboardData?.inventory_risk?.low_stock_count ?? 1;
   const inactiveCount = dashboardData?.customer_metrics?.inactive_customers_count ?? 24;
-  const warningAlert = dashboardData?.alerts_and_opportunities?.find((a) => a.type === "warning");
-
-  const urgentFocusText = warningAlert
-    ? warningAlert.message
-    : "Monitoring live business performance.";
 
   const navItems = [
     {
@@ -49,7 +43,7 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
         <LayoutDashboard
           className={cn(
             "h-5 w-5 flex-shrink-0 transition-colors",
-            pathname === "/dashboard" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+            pathname === "/dashboard" ? "text-paytm-cyan" : "text-neutral-400 group-hover/sidebar:text-white"
           )}
         />
       ),
@@ -61,7 +55,7 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
         <Bot
           className={cn(
             "h-5 w-5 flex-shrink-0 transition-colors",
-            pathname === "/teammate" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+            pathname === "/teammate" ? "text-paytm-cyan" : "text-neutral-400 group-hover/sidebar:text-white"
           )}
         />
       ),
@@ -73,7 +67,7 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
         <Package
           className={cn(
             "h-5 w-5 flex-shrink-0 transition-colors",
-            pathname === "/inventory" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+            pathname === "/inventory" ? "text-paytm-cyan" : "text-neutral-400 group-hover/sidebar:text-white"
           )}
         />
       ),
@@ -85,7 +79,7 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
         <ShoppingBag
           className={cn(
             "h-5 w-5 flex-shrink-0 transition-colors",
-            pathname === "/products" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+            pathname === "/products" ? "text-paytm-cyan" : "text-neutral-400 group-hover/sidebar:text-white"
           )}
         />
       ),
@@ -97,7 +91,7 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
         <Users
           className={cn(
             "h-5 w-5 flex-shrink-0 transition-colors",
-            pathname === "/customers" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+            pathname === "/customers" ? "text-paytm-cyan" : "text-neutral-400 group-hover/sidebar:text-white"
           )}
         />
       ),
@@ -109,7 +103,7 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
         <Tag
           className={cn(
             "h-5 w-5 flex-shrink-0 transition-colors",
-            pathname === "/promotions" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+            pathname === "/promotions" ? "text-paytm-cyan" : "text-neutral-400 group-hover/sidebar:text-white"
           )}
         />
       ),
@@ -121,7 +115,7 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
         <Zap
           className={cn(
             "h-5 w-5 flex-shrink-0 transition-colors",
-            pathname === "/campaigns" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+            pathname === "/campaigns" ? "text-paytm-cyan" : "text-neutral-400 group-hover/sidebar:text-white"
           )}
         />
       ),
@@ -131,45 +125,32 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <SidebarBody
       className={cn(
-        "justify-between gap-6 bg-slate-900 border-r border-slate-800 text-slate-200 h-screen sticky top-0 min-h-screen z-40 py-5 px-2.5 font-sans overflow-hidden",
+        "justify-between gap-6 bg-slate-900 border-r border-slate-800 text-slate-200 h-screen sticky top-0 min-h-screen z-40 py-5 px-3 font-sans overflow-hidden",
         className
       )}
     >
       <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/* Brand Header */}
+        {/* Brand Logo Header */}
         <Link
           href="/dashboard"
           className={cn(
-            "flex items-center gap-3 py-2 px-1 mb-6 text-white font-sans transition-all overflow-hidden",
-            open ? "justify-start" : "justify-center"
+            "flex items-center gap-2.5 py-1 mb-6 text-white font-sans transition-all overflow-hidden"
           )}
         >
-          <div className="shrink-0 flex items-center justify-center">
-            <VyapaarSathiLogo className="w-9 h-9 shrink-0" />
-          </div>
-          <motion.div
-            initial={false}
+          <VyapaarSathiLogo className="h-7 w-7 flex-shrink-0" />
+          <motion.span
             animate={{
+              display: open ? "inline-block" : "none",
               opacity: open ? 1 : 0,
-              width: open ? "auto" : 0,
             }}
-            transition={{
-              duration: 0.25,
-              ease: "easeInOut",
-            }}
-            className="whitespace-nowrap overflow-hidden"
+            className="font-bold text-sm text-white tracking-tight whitespace-nowrap overflow-hidden inline-block !p-0 !m-0"
           >
-            <span className="font-bold text-sm text-white tracking-tight block leading-tight">
-              Vyapaar Sathi
-            </span>
-            <span className="text-[10px] text-slate-400 font-medium block">
-              Autonomous Business OS
-            </span>
-          </motion.div>
+            Vyapaar Sathi
+          </motion.span>
         </Link>
 
         {/* Links Navigation */}
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-2">
           {navItems.map((item, idx) => {
             const isActive = pathname === item.href;
             return (
@@ -186,47 +167,16 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
             );
           })}
         </div>
-
-        {/* Quick Insights Summary Box (visible when expanded) */}
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="mt-6 bg-slate-800/80 border border-slate-700/60 rounded-xl p-3 space-y-2 font-sans overflow-hidden shrink-0"
-            >
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-200">
-                <span className="flex items-center gap-1.5 text-amber-400">
-                  <AlertTriangle className="w-3.5 h-3.5" /> Urgent Focus
-                </span>
-                <span className="text-[10px] bg-slate-700 px-1.5 py-0.5 rounded text-slate-300">
-                  Merchant #1
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-300 leading-snug">
-                {urgentFocusText}
-              </p>
-              <Link
-                href="/teammate"
-                className="block text-center text-[11px] font-semibold bg-paytm-cyan/10 text-paytm-cyan border border-paytm-cyan/30 py-1 rounded-md hover:bg-paytm-cyan hover:text-paytm-navy transition-all"
-              >
-                Investigate Root Cause
-              </Link>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       {/* Profile Footer */}
-      <div className="border-t border-slate-800 pt-4 font-sans overflow-hidden">
+      <div className="border-t border-slate-800 pt-3 font-sans overflow-hidden">
         <SidebarLink
           link={{
             label: "Rajesh Fast Food",
             href: "/teammate",
             icon: (
-              <div className="h-8 w-8 rounded-full bg-paytm-navy border border-paytm-cyan/30 flex items-center justify-center text-paytm-cyan font-bold text-xs shrink-0 shadow-sm">
+              <div className="h-7 w-7 rounded-full bg-paytm-navy border border-paytm-cyan/30 flex items-center justify-center text-paytm-cyan font-bold text-xs shrink-0 shadow-sm">
                 <Building2 className="w-4 h-4" />
               </div>
             ),
@@ -238,5 +188,4 @@ export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
   );
 };
 
-// Re-export as Sidebar for backwards compatibility if needed
 export const Sidebar = AppSidebar;

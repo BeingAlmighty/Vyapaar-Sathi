@@ -4,7 +4,6 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import {
-  Sparkles,
   ArrowRight,
   TrendingDown,
   ShoppingBag,
@@ -19,6 +18,7 @@ import { OpportunityCard } from "@/components/dashboard/OpportunityCard";
 import { SalesChart } from "@/components/charts/SalesChart";
 import { ProductChart } from "@/components/charts/ProductChart";
 import {
+  DashboardHeroSkeleton,
   MetricCardSkeleton,
   ChartSkeleton,
   TableSkeleton,
@@ -36,8 +36,8 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6 animate-pulse">
-        <div className="h-20 bg-slate-200 rounded-xl" />
+      <div className="space-y-6">
+        <DashboardHeroSkeleton />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <MetricCardSkeleton />
           <MetricCardSkeleton />
@@ -67,16 +67,16 @@ export default function DashboardPage() {
   const opportunityAlert = alerts_and_opportunities.find((a) => a.type === "opportunity");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-paytm-navy via-slate-900 to-slate-900 text-white rounded-2xl p-6 shadow-paytm-card border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2 text-paytm-cyan text-xs font-bold uppercase tracking-wider mb-1">
             <Store className="w-4 h-4" />
             <span>Merchant #{data.merchant_id} • Live Backend Connected</span>
           </div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-            Good Morning 👋
+            Good Morning
           </h1>
           <p className="text-xs text-slate-300 mt-1">
             Your Business Teammate detected <span className="text-amber-400 font-bold">{alerts_and_opportunities.length} live alerts & opportunities</span>.
@@ -85,9 +85,8 @@ export default function DashboardPage() {
 
         <Link
           href="/teammate"
-          className="inline-flex items-center space-x-2 bg-paytm-cyan text-paytm-navy font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-white transition-all shadow-md shrink-0"
+          className="inline-flex items-center space-x-2 bg-paytm-cyan text-slate-950 font-extrabold text-xs px-5 py-2.5 rounded-xl hover:bg-white transition-all shadow-xs shrink-0"
         >
-          <Sparkles className="w-4 h-4" />
           <span>Ask Business Teammate</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
@@ -99,14 +98,14 @@ export default function DashboardPage() {
           title="Today's Sales"
           value={formatCurrency(sales_summary.today_sales)}
           subtitle={`${sales_summary.today_orders} orders today`}
-          icon={<ShoppingBag className="w-4 h-4 text-paytm-navy" />}
+          icon={<ShoppingBag className="w-4 h-4 text-slate-700" />}
         />
         <MetricCard
           title="Monthly Sales"
           value={formatCurrency(sales_summary.monthly_sales)}
           change={sales_summary.sales_growth_percent}
           changePeriod="vs last month"
-          icon={<TrendingDown className="w-4 h-4 text-red-500" />}
+          icon={<TrendingDown className="w-4 h-4 text-rose-500" />}
         />
         <MetricCard
           title="Average Order Value"
@@ -121,19 +120,19 @@ export default function DashboardPage() {
       </div>
 
       {/* Prominent "ASK YOUR BUSINESS TEAMMATE" Entrypoint */}
-      <div className="bg-white border-2 border-paytm-cyan/40 rounded-2xl p-5 shadow-paytm-card flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center space-x-3.5">
-          <div className="w-12 h-12 rounded-xl bg-paytm-navy text-white flex items-center justify-center font-bold shadow-md shrink-0">
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold shadow-xs shrink-0">
             <Bot className="w-6 h-6 text-paytm-cyan" />
           </div>
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-paytm-navy bg-paytm-lightBlue px-2 py-0.5 rounded">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-800 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200/60">
               AI Business Operating OS
             </span>
-            <h3 className="text-base font-extrabold text-slate-900 leading-snug mt-0.5">
+            <h3 className="text-base font-extrabold text-slate-900 leading-snug mt-1">
               ASK YOUR BUSINESS TEAMMATE
             </h3>
-            <p className="text-xs text-slate-600">
+            <p className="text-xs text-slate-500">
               Inquire in Hinglish, Hindi or English e.g. "Meri sales kyun gir rahi hai?"
             </p>
           </div>
@@ -142,13 +141,13 @@ export default function DashboardPage() {
         <div className="flex flex-wrap gap-2 w-full md:w-auto justify-end">
           <Link
             href="/teammate?query=Meri%20sales%20kyun%20gir%20rahi%20hai%3F"
-            className="text-xs bg-slate-100 hover:bg-paytm-navy hover:text-white text-slate-800 font-semibold px-3 py-1.5 rounded-lg border border-slate-200 transition-all shadow-2xs"
+            className="text-xs bg-slate-100/80 hover:bg-slate-900 hover:text-white text-slate-800 font-semibold px-4 py-1.5 rounded-full border border-slate-200/60 transition-all"
           >
             "Meri sales kyun gir rahi hai?"
           </Link>
           <Link
             href="/teammate?query=What%20should%20I%20restock%3F"
-            className="text-xs bg-slate-100 hover:bg-paytm-navy hover:text-white text-slate-800 font-semibold px-3 py-1.5 rounded-lg border border-slate-200 transition-all shadow-2xs"
+            className="text-xs bg-slate-100/80 hover:bg-slate-900 hover:text-white text-slate-800 font-semibold px-4 py-1.5 rounded-full border border-slate-200/60 transition-all"
           >
             "What should I restock?"
           </Link>
@@ -175,7 +174,7 @@ export default function DashboardPage() {
       {/* Visual Analytics Grid (Direct Backend Product Data) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <SalesChart height={280} />
+          <SalesChart data={data.sales_trend} height={280} />
         </div>
         <div>
           <ProductChart

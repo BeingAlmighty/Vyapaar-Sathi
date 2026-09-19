@@ -79,6 +79,7 @@ export interface BusinessAlert {
 export interface DashboardData {
   merchant_id: number;
   sales_summary: SalesSummary;
+  sales_trend?: Array<{ period: string; sales: number }>;
   top_selling_products: ProductPerformance[];
   declining_products: ProductPerformance[];
   inventory_risk: InventoryRisk;

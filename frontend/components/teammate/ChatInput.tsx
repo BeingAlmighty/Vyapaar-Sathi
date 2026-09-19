@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, Sparkles, Mic, Loader2 } from "lucide-react";
+import { Send, Mic, Loader2 } from "lucide-react";
 import { ChatLanguage } from "@/types";
 
 interface ChatInputProps {

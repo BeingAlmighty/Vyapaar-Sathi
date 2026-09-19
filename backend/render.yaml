@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: paytm-growth-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: N8N_WEBHOOK_URL
+        value: http://localhost:5678/webhook/merchant-ai
+      - key: ML_SERVICE_URL
+        value: http://localhost:8001

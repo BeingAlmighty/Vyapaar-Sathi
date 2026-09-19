@@ -33,17 +33,29 @@ async def get_promotions(merchant_id: int) -> List[PromotionResponse]:
                 disc_pct = float(row['discount_percent'])
                 
                 # Deterministic calculation of incremental sales & ROI
-                expected_baseline = sales * (1.0 - (disc_pct / 100.0))
-                incremental = sales - expected_baseline
+                category = (row['target_category'] or "").lower()
+                if category == 'combos':
+                    lift_factor = 1.55  # Strong offered combo volume lift (+55%)
+                elif category == 'beverages':
+                    lift_factor = 1.10  # Single item discount margin dilution (+10% lift)
+                else:
+                    lift_factor = 1.25
+
+                baseline_sales = sales / lift_factor if lift_factor > 0 else sales
+                incremental = sales - baseline_sales
                 discount_cost = sales * (disc_pct / 100.0)
-                
-                roi = round(((incremental - discount_cost) / (discount_cost + 1.0)) * 100, 2)
-                
-                effectiveness = "high"
+
+                if discount_cost > 0:
+                    roi = round(((incremental - discount_cost) / discount_cost) * 100, 2)
+                else:
+                    roi = 0.0
+
                 if roi < 0:
                     effectiveness = "ineffective"
-                elif roi < 25:
+                elif roi < 20:
                     effectiveness = "moderate"
+                else:
+                    effectiveness = "high"
 
                 result.append(PromotionResponse(
                     id=row['id'],

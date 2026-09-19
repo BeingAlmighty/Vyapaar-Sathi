@@ -24,7 +24,7 @@ const categoryData = [
 
 export const CategoryChart: React.FC<CategoryChartProps> = ({ height = 240 }) => {
   return (
-    <div className="w-full bg-white p-4 rounded-xl border border-slate-200 shadow-paytm-sm">
+    <div className="w-full bg-white p-6 rounded-3xl border border-slate-200/70 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-md transition-all duration-200">
       <div className="flex items-center justify-between mb-2">
         <div>
           <h3 className="text-sm font-bold text-slate-900">Revenue Contribution by Category</h3>
@@ -56,6 +56,8 @@ export const CategoryChart: React.FC<CategoryChartProps> = ({ height = 240 }) =>
                 color: "#FFFFFF",
                 fontSize: "12px",
               }}
+              itemStyle={{ color: "#FFFFFF", fontWeight: "bold" }}
+              labelStyle={{ color: "#94A3B8", fontWeight: "bold" }}
             />
           </PieChart>
         </ResponsiveContainer>

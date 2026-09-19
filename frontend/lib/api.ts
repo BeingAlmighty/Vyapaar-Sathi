@@ -1,4 +1,4 @@
-import { MOCK_MERCHANT, MOCK_AT_RISK_CUSTOMERS, MOCK_PROMOTIONS, MOCK_CAMPAIGNS, MOCK_CHAT_RESPONSES, MOCK_HEALTH } from './demoData';
+import { MOCK_MERCHANT, MOCK_DASHBOARD, MOCK_AT_RISK_CUSTOMERS, MOCK_PROMOTIONS, MOCK_CAMPAIGNS, MOCK_CHAT_RESPONSES, MOCK_HEALTH } from './demoData';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -122,6 +122,7 @@ export interface Campaign {
 export interface DashboardData {
   merchant_id: number;
   sales_summary: SalesSummary;
+  sales_trend?: Array<{ period: string; sales: number }>;
   top_selling_products: ProductAnalytics[];
   declining_products: ProductAnalytics[];
   inventory_risk: InventoryRiskSummary;
@@ -243,18 +244,18 @@ export const api = {
 
   // Product Intelligence
   getTopProducts: (merchantId: number = 1, limit: number = 5) =>
-    fetchWithFallback<ProductAnalytics[]>(`/api/products/top/${merchantId}?limit=${limit}`, { method: 'GET' }),
+    fetchWithFallback<ProductAnalytics[]>(`/api/products/top/${merchantId}?limit=${limit}`, { method: 'GET' }, MOCK_DASHBOARD.top_selling_products),
 
   getDecliningProducts: (merchantId: number = 1, limit: number = 5) =>
-    fetchWithFallback<ProductAnalytics[]>(`/api/products/declining/${merchantId}?limit=${limit}`, { method: 'GET' }),
+    fetchWithFallback<ProductAnalytics[]>(`/api/products/declining/${merchantId}?limit=${limit}`, { method: 'GET' }, MOCK_DASHBOARD.declining_products),
 
   // Inventory Intelligence
   getInventoryRisk: (merchantId: number = 1) =>
-    fetchWithFallback<InventoryRiskSummary>(`/api/inventory/risk/${merchantId}`, { method: 'GET' }),
+    fetchWithFallback<InventoryRiskSummary>(`/api/inventory/risk/${merchantId}`, { method: 'GET' }, MOCK_DASHBOARD.inventory_risk),
 
   // Customer Intelligence
   getCustomerRetention: (merchantId: number = 1) =>
-    fetchWithFallback<CustomerRetentionMetrics>(`/api/customers/retention/${merchantId}`, { method: 'GET' }),
+    fetchWithFallback<CustomerRetentionMetrics>(`/api/customers/retention/${merchantId}`, { method: 'GET' }, MOCK_DASHBOARD.customer_metrics),
 
   getAtRiskCustomers: (merchantId: number = 1, minInactiveDays: number = 30) =>
     fetchWithFallback<AtRiskCustomer[]>(`/api/customers/at-risk/${merchantId}?min_inactive_days=${minInactiveDays}`, { method: 'GET' }, MOCK_AT_RISK_CUSTOMERS as unknown as AtRiskCustomer[]),

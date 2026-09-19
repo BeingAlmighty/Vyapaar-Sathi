@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Zap, CheckCircle2, ShieldCheck, ArrowRight, Sparkles, Clock, AlertCircle } from "lucide-react";
+import { Zap, CheckCircle2, ShieldCheck, ArrowRight, Clock } from "lucide-react";
 import { getCampaigns, approveCampaign } from "@/lib/api/client";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { ApprovalModal } from "@/components/shared/ApprovalModal";
@@ -45,7 +45,7 @@ export default function CampaignsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -59,10 +59,10 @@ export default function CampaignsPage() {
 
         <Link
           href="/teammate?query=Suggest%20a%20new%20campaign"
-          className="inline-flex items-center space-x-2 bg-paytm-navy text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-paytm-darkBlue transition-all shadow-sm shrink-0"
+          className="inline-flex items-center space-x-2 bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-slate-800 transition-all shadow-xs shrink-0"
         >
-          <Sparkles className="w-4 h-4 text-paytm-cyan" />
           <span>Propose New Campaign</span>
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
 
@@ -74,17 +74,17 @@ export default function CampaignsPage() {
           return (
             <div
               key={camp.id}
-              className={`bg-white border rounded-2xl p-5 shadow-paytm-sm transition-all space-y-4 ${
-                isPending ? "border-paytm-cyan/80 ring-2 ring-paytm-cyan/20" : "border-slate-200"
+              className={`bg-white border rounded-3xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-all space-y-4 ${
+                isPending ? "border-sky-300 ring-2 ring-sky-100" : "border-slate-200/70"
               }`}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-xl bg-paytm-navy text-white flex items-center justify-center font-bold shrink-0">
+                  <div className="w-10 h-10 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold shrink-0">
                     <Zap className="w-5 h-5 text-paytm-cyan" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-slate-900">{camp.title}</h3>
+                    <h3 className="text-base font-extrabold text-slate-900">{camp.title}</h3>
                     <span className="text-xs text-slate-500 font-medium">
                       Target: <span className="text-slate-800 font-semibold">{camp.target_audience}</span>
                     </span>
@@ -98,7 +98,7 @@ export default function CampaignsPage() {
 
               {/* Action area */}
               <div className="pt-2 flex items-center justify-between">
-                <div className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+                <div className="text-xs text-slate-400 font-medium flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   <span>Created {formatDate(camp.created_at || "")}</span>
                 </div>
@@ -106,14 +106,14 @@ export default function CampaignsPage() {
                 {isPending ? (
                   <button
                     onClick={() => setSelectedCampaign(camp.id)}
-                    className="inline-flex items-center space-x-2 bg-paytm-navy text-white font-bold text-xs px-4 py-2 rounded-lg hover:bg-paytm-darkBlue transition-all shadow-sm"
+                    className="inline-flex items-center space-x-2 bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-xl hover:bg-slate-800 transition-all shadow-xs"
                   >
                     <ShieldCheck className="w-4 h-4 text-paytm-cyan" />
                     <span>Review & Approve Campaign</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 ) : (
-                  <span className="inline-flex items-center space-x-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg">
+                  <span className="inline-flex items-center space-x-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/60">
                     <CheckCircle2 className="w-4 h-4" />
                     <span>Active & Monitored by AI</span>
                   </span>

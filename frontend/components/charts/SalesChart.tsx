@@ -31,7 +31,7 @@ export const SalesChart: React.FC<SalesChartProps> = ({
   height = 260,
 }) => {
   return (
-    <div className="w-full bg-white p-4 rounded-xl border border-slate-200 shadow-paytm-sm">
+    <div className="w-full bg-white p-6 rounded-3xl border border-slate-200/70 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-md transition-all duration-200">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-slate-900">Monthly Sales Trend</h3>
@@ -68,6 +68,8 @@ export const SalesChart: React.FC<SalesChartProps> = ({
                 color: "#FFFFFF",
                 fontSize: "12px",
               }}
+              itemStyle={{ color: "#FFFFFF", fontWeight: "bold" }}
+              labelStyle={{ color: "#94A3B8", fontWeight: "bold" }}
             />
             <Area
               type="monotone"
