@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { VyapaarSathiLogo } from "@/components/shared/VyapaarSathiLogo";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -36,7 +37,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden">
+    <div className="fixed inset-0 z-50 lg:hidden font-sans">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
@@ -47,11 +48,11 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
       <div className="fixed inset-y-0 left-0 w-72 bg-slate-900 text-white shadow-2xl p-4 flex flex-col justify-between z-50">
         <div>
           <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-            <div className="flex items-center space-x-2">
-              <span className="bg-paytm-navy text-white font-bold px-2 py-0.5 rounded text-sm">
-                Paytm
+            <div className="flex items-center space-x-2.5">
+              <VyapaarSathiLogo className="w-6 h-6" />
+              <span className="font-bold text-sm text-white tracking-tight">
+                Vyapaar Sathi
               </span>
-              <span className="font-semibold text-xs text-slate-300">Merchant OS</span>
             </div>
             <button
               onClick={onClose}

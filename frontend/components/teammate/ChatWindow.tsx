@@ -21,7 +21,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ initialQuery }) => {
     {
       id: "welcome-1",
       sender: "ai",
-      text: "Namaste Rajesh ji! 👋 Main aapka Autonomous Growth Teammate hoon. Main aapke business ka 24/7 analysis karta hoon.\n\nAapki sales pichle month 25.54% gir chuki hai. Aaiye investigate karte hain!",
+      text: "Namaste Rajesh ji! Main aapka Autonomous Growth Teammate hoon. Main aapke business ka 24/7 analysis karta hoon.\n\nAapki sales pichle month 25.54% gir chuki hai. Aaiye investigate karte hain!",
       language: "hinglish",
       workers: [],
       suggestions: [
@@ -130,7 +130,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ initialQuery }) => {
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-sm font-bold text-slate-900">Your Business Teammate</h2>
+              <h2 className="text-sm font-bold text-slate-900">Vyapaar Sathi AI Companion</h2>
               <span className="flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                 <span>Online</span>

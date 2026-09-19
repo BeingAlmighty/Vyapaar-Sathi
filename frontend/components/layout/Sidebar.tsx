@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard,
   Bot,
@@ -12,18 +13,17 @@ import {
   Users,
   Tag,
   Zap,
-  ChevronRight,
   AlertTriangle,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
+import { SidebarBody, SidebarLink, useSidebar } from "@/components/ui/sidebar";
+import { VyapaarSathiLogo } from "@/components/shared/VyapaarSathiLogo";
 
-interface SidebarProps {
-  className?: string;
-}
-
-export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
+export const AppSidebar: React.FC<{ className?: string }> = ({ className }) => {
   const pathname = usePathname();
+  const { open } = useSidebar();
   const merchantId = 1;
 
   const { data: res } = useQuery({
@@ -43,150 +43,200 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
 
   const navItems = [
     {
-      name: "Dashboard",
+      label: "Dashboard",
       href: "/dashboard",
-      icon: LayoutDashboard,
-      badge: null,
+      icon: (
+        <LayoutDashboard
+          className={cn(
+            "h-5 w-5 flex-shrink-0 transition-colors",
+            pathname === "/dashboard" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+          )}
+        />
+      ),
     },
     {
-      name: "AI Business Teammate",
+      label: "AI Teammate",
       href: "/teammate",
-      icon: Bot,
-      badge: "AI Active",
-      badgeColor: "bg-paytm-cyan text-paytm-navy font-bold",
+      icon: (
+        <Bot
+          className={cn(
+            "h-5 w-5 flex-shrink-0 transition-colors",
+            pathname === "/teammate" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+          )}
+        />
+      ),
     },
     {
-      name: "Inventory Risk",
+      label: `Inventory Risk (${lowStockCount})`,
       href: "/inventory",
-      icon: Package,
-      badge: `${lowStockCount} Risk`,
-      badgeColor: "bg-red-100 text-red-700 font-bold",
+      icon: (
+        <Package
+          className={cn(
+            "h-5 w-5 flex-shrink-0 transition-colors",
+            pathname === "/inventory" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+          )}
+        />
+      ),
     },
     {
-      name: "Product Intelligence",
+      label: "Product Intelligence",
       href: "/products",
-      icon: ShoppingBag,
-      badge: null,
+      icon: (
+        <ShoppingBag
+          className={cn(
+            "h-5 w-5 flex-shrink-0 transition-colors",
+            pathname === "/products" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+          )}
+        />
+      ),
     },
     {
-      name: "Customer Retention",
+      label: `Customer Retention (${inactiveCount})`,
       href: "/customers",
-      icon: Users,
-      badge: `${inactiveCount} Inactive`,
-      badgeColor: "bg-amber-100 text-amber-800 font-bold",
+      icon: (
+        <Users
+          className={cn(
+            "h-5 w-5 flex-shrink-0 transition-colors",
+            pathname === "/customers" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+          )}
+        />
+      ),
     },
     {
-      name: "Promotions ROI",
+      label: "Promotions ROI",
       href: "/promotions",
-      icon: Tag,
-      badge: null,
+      icon: (
+        <Tag
+          className={cn(
+            "h-5 w-5 flex-shrink-0 transition-colors",
+            pathname === "/promotions" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+          )}
+        />
+      ),
     },
     {
-      name: "Autonomous Campaigns",
+      label: "Autonomous Campaigns",
       href: "/campaigns",
-      icon: Zap,
-      badge: "1 Pending",
-      badgeColor: "bg-blue-100 text-paytm-navy font-bold",
+      icon: (
+        <Zap
+          className={cn(
+            "h-5 w-5 flex-shrink-0 transition-colors",
+            pathname === "/campaigns" ? "text-paytm-cyan" : "text-slate-400 group-hover/sidebar:text-slate-200"
+          )}
+        />
+      ),
     },
   ];
 
   return (
-    <aside
+    <SidebarBody
       className={cn(
-        "w-64 bg-slate-900 text-slate-300 flex flex-col shrink-0 border-r border-slate-800 min-h-[calc(100vh-4rem)]",
+        "justify-between gap-6 bg-slate-900 border-r border-slate-800 text-slate-200 h-screen sticky top-0 min-h-screen z-40 py-5 px-2.5 font-sans overflow-hidden",
         className
       )}
     >
-      {/* Navigation section */}
-      <div className="p-4 space-y-6 flex-1">
-        <div>
-          <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-2">
-            Business Operating OS
+      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        {/* Brand Header */}
+        <Link
+          href="/dashboard"
+          className={cn(
+            "flex items-center gap-3 py-2 px-1 mb-6 text-white font-sans transition-all overflow-hidden",
+            open ? "justify-start" : "justify-center"
+          )}
+        >
+          <div className="shrink-0 flex items-center justify-center">
+            <VyapaarSathiLogo className="w-9 h-9 shrink-0" />
           </div>
-          <nav className="space-y-1">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-all group",
-                    isActive
-                      ? "bg-paytm-navy text-white font-semibold shadow-sm ring-1 ring-paytm-cyan/30"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/60"
-                  )}
-                >
-                  <div className="flex items-center space-x-2.5">
-                    <Icon
-                      className={cn(
-                        "w-4 h-4 transition-colors",
-                        isActive ? "text-paytm-cyan" : "text-slate-400 group-hover:text-slate-300"
-                      )}
-                    />
-                    <span>{item.name}</span>
-                  </div>
-
-                  {item.badge ? (
-                    <span
-                      className={cn(
-                        "px-2 py-0.5 rounded-full text-[10px] font-semibold leading-none",
-                        item.badgeColor
-                      )}
-                    >
-                      {item.badge}
-                    </span>
-                  ) : (
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Quick Insights Summary Box (Dynamic Data) */}
-        <div className="bg-slate-800/80 border border-slate-700/60 rounded-xl p-3 space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-slate-200">
-            <span className="flex items-center gap-1.5 text-amber-400">
-              <AlertTriangle className="w-3.5 h-3.5" /> Urgent Focus
-            </span>
-            <span className="text-[10px] bg-slate-700 px-1.5 py-0.5 rounded text-slate-300">
-              Merchant #{merchantId}
-            </span>
-          </div>
-          <p className="text-[11px] text-slate-300 leading-snug">
-            {urgentFocusText}
-          </p>
-          <Link
-            href="/teammate"
-            className="block text-center text-[11px] font-semibold bg-paytm-cyan/10 text-paytm-cyan border border-paytm-cyan/30 py-1.5 rounded-md hover:bg-paytm-cyan hover:text-paytm-navy transition-all"
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: open ? 1 : 0,
+              width: open ? "auto" : 0,
+            }}
+            transition={{
+              duration: 0.25,
+              ease: "easeInOut",
+            }}
+            className="whitespace-nowrap overflow-hidden"
           >
-            Investigate Root Cause →
-          </Link>
+            <span className="font-bold text-sm text-white tracking-tight block leading-tight">
+              Vyapaar Sathi
+            </span>
+            <span className="text-[10px] text-slate-400 font-medium block">
+              Autonomous Business OS
+            </span>
+          </motion.div>
+        </Link>
+
+        {/* Links Navigation */}
+        <div className="flex flex-col gap-1.5">
+          {navItems.map((item, idx) => {
+            const isActive = pathname === item.href;
+            return (
+              <SidebarLink
+                key={idx}
+                link={item}
+                className={cn(
+                  "px-2 py-2 rounded-xl transition-all font-sans text-xs font-medium",
+                  isActive
+                    ? "bg-slate-800 text-white font-semibold shadow-xs"
+                    : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                )}
+              />
+            );
+          })}
         </div>
+
+        {/* Quick Insights Summary Box (visible when expanded) */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="mt-6 bg-slate-800/80 border border-slate-700/60 rounded-xl p-3 space-y-2 font-sans overflow-hidden shrink-0"
+            >
+              <div className="flex items-center justify-between text-xs font-semibold text-slate-200">
+                <span className="flex items-center gap-1.5 text-amber-400">
+                  <AlertTriangle className="w-3.5 h-3.5" /> Urgent Focus
+                </span>
+                <span className="text-[10px] bg-slate-700 px-1.5 py-0.5 rounded text-slate-300">
+                  Merchant #1
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-300 leading-snug">
+                {urgentFocusText}
+              </p>
+              <Link
+                href="/teammate"
+                className="block text-center text-[11px] font-semibold bg-paytm-cyan/10 text-paytm-cyan border border-paytm-cyan/30 py-1 rounded-md hover:bg-paytm-cyan hover:text-paytm-navy transition-all"
+              >
+                Investigate Root Cause
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Footer / Operating Teammate Status */}
-      <div className="p-4 border-t border-slate-800 bg-slate-950/50">
-        <div className="flex items-center space-x-3">
-          <div className="relative">
-            <div className="w-8 h-8 rounded-lg bg-paytm-cyan/20 border border-paytm-cyan/40 text-paytm-cyan flex items-center justify-center font-bold">
-              <Bot className="w-4 h-4" />
-            </div>
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-900 rounded-full animate-ping" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-900 rounded-full" />
-          </div>
-          <div className="text-left text-xs">
-            <div className="font-semibold text-white flex items-center gap-1">
-              Autonomous Agent
-            </div>
-            <div className="text-[10px] text-slate-400">Monitoring 24/7</div>
-          </div>
-        </div>
+      {/* Profile Footer */}
+      <div className="border-t border-slate-800 pt-4 font-sans overflow-hidden">
+        <SidebarLink
+          link={{
+            label: "Rajesh Fast Food",
+            href: "/teammate",
+            icon: (
+              <div className="h-8 w-8 rounded-full bg-paytm-navy border border-paytm-cyan/30 flex items-center justify-center text-paytm-cyan font-bold text-xs shrink-0 shadow-sm">
+                <Building2 className="w-4 h-4" />
+              </div>
+            ),
+          }}
+          className="hover:bg-slate-800/60 rounded-xl px-1 py-1 text-xs font-medium text-slate-200"
+        />
       </div>
-    </aside>
+    </SidebarBody>
   );
 };
+
+// Re-export as Sidebar for backwards compatibility if needed
+export const Sidebar = AppSidebar;

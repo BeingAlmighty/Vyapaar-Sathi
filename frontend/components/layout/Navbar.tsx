@@ -7,13 +7,12 @@ import {
   Sparkles,
   Menu,
   Activity,
-  UserCheck,
-  ChevronDown,
   Globe,
   Database,
   Cpu,
   Workflow,
   Server,
+  Building2,
 } from "lucide-react";
 import { isDemoModeActive, subscribeDemoMode, getHealth } from "@/lib/api/client";
 import { ChatLanguage, HealthStatus } from "@/types";
@@ -45,40 +44,53 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => unsubscribe();
   }, []);
 
+  const getPageTitle = () => {
+    switch (pathname) {
+      case "/dashboard":
+        return "Executive Business Dashboard";
+      case "/teammate":
+        return "AI Business Teammate Workspace";
+      case "/inventory":
+        return "Inventory Risk Intelligence";
+      case "/products":
+        return "Product & Sales Intelligence";
+      case "/customers":
+        return "Customer Retention Intelligence";
+      case "/promotions":
+        return "Promotions & Campaign ROI";
+      case "/campaigns":
+        return "Autonomous Campaign Management";
+      default:
+        return "Vyapaar Sathi - Business OS";
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-paytm-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Left section: Logo & Mobile menu button */}
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 font-sans">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14">
+          {/* Left section: Mobile menu & Context title */}
           <div className="flex items-center space-x-3">
             <button
               onClick={onMobileNavToggle}
-              className="lg:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+              className="lg:hidden p-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
               aria-label="Open sidebar"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5" />
             </button>
 
-            <Link href="/dashboard" className="flex items-center space-x-3">
-              <div className="bg-paytm-navy text-white font-extrabold text-xl px-2.5 py-1 rounded-md tracking-tight flex items-center shadow-sm">
-                Paytm
-                <span className="bg-paytm-cyan text-paytm-navy text-xs font-bold ml-1.5 px-1.5 py-0.5 rounded">
-                  AI OS
-                </span>
-              </div>
-              <div className="hidden md:block">
-                <span className="text-sm font-semibold text-slate-900 block leading-none">
-                  Autonomous Growth Teammate
-                </span>
-                <span className="text-xs text-slate-500 font-medium leading-tight">
-                  Merchant OS • Hackathon Edition
-                </span>
-              </div>
-            </Link>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs font-bold text-slate-900 tracking-tight">
+                {getPageTitle()}
+              </span>
+              <span className="hidden sm:inline-block text-[10px] bg-slate-100 text-slate-500 font-semibold px-2 py-0.5 rounded-full border border-slate-200">
+                Hackathon Edition
+              </span>
+            </div>
           </div>
 
-          {/* Right section: Health indicator, Language switcher, AI shortcut & Profile */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* Right section: System Status, Language Switcher, AI Action & Profile */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
             {/* System / Demo Health Status Badge */}
             <div className="relative">
               <button
@@ -94,8 +106,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                     isDemo ? "bg-amber-500" : "bg-emerald-500"
                   }`}
                 />
-                <span>{isDemo ? "Demo Data" : "System Healthy"}</span>
-                <Activity className="w-3.5 h-3.5 ml-0.5 opacity-70" />
+                <span className="text-[11px]">{isDemo ? "Demo Data" : "System Healthy"}</span>
+                <Activity className="w-3 h-3 ml-0.5 opacity-70" />
               </button>
 
               {/* Health Popover Details */}
@@ -152,15 +164,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Multilingual Selector */}
             {onLanguageChange && (
-              <div className="hidden sm:flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium">
+              <div className="hidden md:flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs font-medium">
                 <Globe className="w-3.5 h-3.5 ml-1.5 text-slate-500 mr-1" />
                 {(["hinglish", "hindi", "english"] as ChatLanguage[]).map((lang) => (
                   <button
                     key={lang}
                     onClick={() => onLanguageChange(lang)}
-                    className={`px-2 py-0.5 rounded capitalize transition-colors ${
+                    className={`px-2 py-0.5 rounded capitalize transition-colors text-[11px] ${
                       selectedLanguage === lang
-                        ? "bg-paytm-navy text-white shadow-xs font-semibold"
+                        ? "bg-paytm-navy text-white font-semibold"
                         : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
@@ -173,26 +185,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Quick Ask AI Teammate button */}
             <Link
               href="/teammate"
-              className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex items-center space-x-1.5 px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                 pathname === "/teammate"
-                  ? "bg-paytm-navy text-white shadow-sm ring-2 ring-paytm-cyan/50"
-                  : "bg-paytm-lightBlue text-paytm-navy hover:bg-paytm-cyan/20 border border-paytm-cyan/30"
+                  ? "bg-paytm-navy text-white shadow-xs"
+                  : "bg-paytm-navy text-white hover:bg-paytm-darkBlue shadow-xs"
               }`}
             >
-              <Sparkles className="w-4 h-4 text-paytm-cyan animate-spin-slow" />
+              <Sparkles className="w-3.5 h-3.5 text-paytm-cyan" />
               <span>Ask Teammate</span>
             </Link>
 
-            {/* Merchant profile indicator */}
+            {/* Merchant profile badge */}
             <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
-              <div className="w-8 h-8 rounded-full bg-paytm-navy text-white flex items-center justify-center font-bold text-xs shadow-sm">
-                RK
+              <div className="w-7 h-7 rounded-full bg-slate-100 border border-slate-300 text-paytm-navy flex items-center justify-center font-bold text-xs shadow-xs">
+                <Building2 className="w-3.5 h-3.5 text-paytm-navy" />
               </div>
-              <div className="hidden md:block text-left">
-                <span className="text-xs font-bold text-slate-900 block leading-tight">
+              <div className="hidden xl:block text-left">
+                <span className="text-xs font-semibold text-slate-900 block leading-tight">
                   Rajesh Fast Food
                 </span>
-                <span className="text-[10px] text-slate-500 font-medium">Merchant #1</span>
+                <span className="text-[10px] text-slate-500 font-medium block">Merchant #1</span>
               </div>
             </div>
           </div>

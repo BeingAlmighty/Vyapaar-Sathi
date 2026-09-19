@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Navbar } from "@/components/layout/Navbar";
-import { Sidebar } from "@/components/layout/Sidebar";
+import { AppSidebar } from "@/components/layout/Sidebar";
+import { Sidebar } from "@/components/ui/sidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { ChatLanguage } from "@/types";
 import "./globals.css";
@@ -28,32 +29,37 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Paytm Autonomous Merchant Growth Teammate</title>
+        <title>Vyapaar Sathi - Autonomous AI Business Growth Teammate</title>
         <meta
           name="description"
-          content="Autonomous AI business teammate for Paytm merchants that detects problems, investigates root cause with specialized workers, and executes decisions."
+          content="Autonomous AI business companion for merchants that detects problems, investigates root cause with specialized workers, and executes growth decisions."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className="bg-slate-50 text-slate-900 flex flex-col min-h-screen">
+      <body className="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen">
         <QueryClientProvider client={queryClient}>
-          <Navbar
-            onMobileNavToggle={() => setMobileNavOpen(true)}
-            selectedLanguage={selectedLanguage}
-            onLanguageChange={setSelectedLanguage}
-          />
+          <Sidebar>
+            <div className="flex min-h-screen w-full font-sans">
+              <AppSidebar />
 
-          <MobileNav
-            isOpen={mobileNavOpen}
-            onClose={() => setMobileNavOpen(false)}
-          />
+              <div className="flex-1 flex flex-col min-w-0 min-h-screen bg-slate-50">
+                <Navbar
+                  onMobileNavToggle={() => setMobileNavOpen(true)}
+                  selectedLanguage={selectedLanguage}
+                  onLanguageChange={setSelectedLanguage}
+                />
 
-          <div className="flex flex-1 max-w-7xl w-full mx-auto">
-            <Sidebar className="hidden lg:block" />
-            <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0 overflow-x-hidden">
-              {children}
-            </main>
-          </div>
+                <MobileNav
+                  isOpen={mobileNavOpen}
+                  onClose={() => setMobileNavOpen(false)}
+                />
+
+                <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0 overflow-x-hidden font-sans">
+                  {children}
+                </main>
+              </div>
+            </div>
+          </Sidebar>
         </QueryClientProvider>
       </body>
     </html>
