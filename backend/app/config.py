@@ -4,6 +4,7 @@ from typing import Optional
 class Settings(BaseSettings):
     APP_ENV: str = "development"
     PORT: int = 8000
+    CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,https://*.vercel.app"
 
     # PostgreSQL Database Configuration
     DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/paytm_growth_db"

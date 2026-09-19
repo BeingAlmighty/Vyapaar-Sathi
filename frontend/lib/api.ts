@@ -1,6 +1,7 @@
 import { MOCK_MERCHANT, MOCK_DASHBOARD, MOCK_AT_RISK_CUSTOMERS, MOCK_PROMOTIONS, MOCK_CAMPAIGNS, MOCK_CHAT_RESPONSES, MOCK_HEALTH } from './demoData';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = rawApiUrl.replace(/\/+$/, '');
 
 export interface APIResponse<T> {
   success: boolean;
@@ -189,7 +190,7 @@ async function fetchStrict<T>(
     console.error(`[Strict Backend Error] Fetch failed for ${endpoint}:`, err);
     return {
       success: false,
-      error: { code: 'BACKEND_UNREACHABLE', message: 'Dashboard requires live backend connection at http://localhost:8000.' },
+      error: { code: 'BACKEND_UNREACHABLE', message: `Dashboard requires live backend connection at ${API_BASE_URL}.` },
     };
   }
 }

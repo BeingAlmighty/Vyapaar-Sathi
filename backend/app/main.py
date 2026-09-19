@@ -48,20 +48,44 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS middleware for Next.js frontend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3001", "*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+from app.config import settings
+
+# Dynamic CORS handling for Next.js frontend (Localhost, Vercel, Render & Production domains)
+raw_origins = [origin.strip() for origin in settings.CORS_ORIGINS.split(",") if origin.strip()]
+has_wildcard = "*" in raw_origins
+
+if has_wildcard:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=raw_origins,
+        allow_origin_regex=r"https://.*\.vercel\.app",
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 # Exception Handlers Registration
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(psycopg.Error, database_exception_handler)
 app.add_exception_handler(Exception, generic_exception_handler)
+
+# Root endpoint for Render health probes & ping check
+@app.get("/", tags=["Root"])
+async def root():
+    return {
+        "status": "healthy",
+        "service": "Paytm Autonomous Merchant Growth Teammate Backend API",
+        "documentation": "/docs"
+    }
 
 # Register API Routers
 app.include_router(health_routes.router)
@@ -76,4 +100,6 @@ app.include_router(chat_routes.router)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    import os
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=True)

@@ -55,7 +55,7 @@ export default function DashboardPage() {
     return (
       <ErrorState
         title="Live Backend Required for Dashboard"
-        message={res?.error?.message || "Dashboard requires live backend connection at http://localhost:8000/api/dashboard/1. Please start your FastAPI server."}
+        message={res?.error?.message || "Dashboard requires live backend connection. Please ensure your FastAPI server is running."}
         onRetry={refetch}
       />
     );
